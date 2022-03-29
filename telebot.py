@@ -52,10 +52,13 @@ def get_task(message):
     bot.register_next_step_handler(message, add);
 
 def add(message):
-    global task
+global task
     task = message.text
-    add_todo(date, task)
-    bot.send_message(message.chat.id, f'Задача {task} добавлена на {date}')
+    if date in todos and task in todos[date]:
+        bot.send_message(message.chat.id, f'задача {task} уже есть на {date}')
+    else:
+        add_todo(date, task)
+        bot.send_message(message.chat.id, f'Задача {task} добавлена на {date}')
 
 @bot.message_handler(commands=['show'])
 
